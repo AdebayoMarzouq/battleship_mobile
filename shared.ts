@@ -1,0 +1,1 @@
+export const ENDPOINT = "18.169.51.122:3030"
