@@ -51,7 +51,6 @@ const SetupGrid = ({ axis, setStart }: GridProps) => {
 	if (!room) return null;
 	const { userId } = user;
 	const { roomId } = room;
-	console.log(room);
 
 	const debounceHandleClick = debounce(
 		async (row: number, column: number) => {

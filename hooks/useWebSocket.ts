@@ -18,11 +18,6 @@ const useWebSocket = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialState);
 	const [webSocketClient, setWebSocketClient] = useState<WebSocket | null>(null);
 
-	const reconnect = () => {
-		const wsClient = createWebSocketConnection();
-		setWebSocketClient(wsClient);
-	};
-
 	useEffect(() => {
 		const wsClient = createWebSocketConnection();
 		let timeouts: NodeJS.Timeout[] = [];
@@ -39,22 +34,27 @@ const useWebSocket = () => {
 					dispatch({ type: msg.type, payload: msg.data });
 					router.replace("/gameScreen");
 				} else if (msg.type === Events.FIRE_SHOT || msg.type === Events.RECEIVED_SHOT) {
-					const { room } = msg.data;
+					const { room, hitData } = msg.data;
 					let delay1: NodeJS.Timeout;
 					let delay2: NodeJS.Timeout;
 					delay1 = setTimeout(() => {
 						dispatch({ type: msg.type, payload: msg.data })
 					}, 500)
 					timeouts.push(delay1)
-					delay2 = setTimeout(() => {
-						const { hitData } = msg.data;
-						if (hitData && hitData.report === 3) {
-							dispatch({ type: Events.UPDATE_TURN, payload: { room, hitData } });
-						} else {
-							dispatch({ type: Events.UPDATE_TURN, payload: { room, hitData: null } });
+					if (hitData) {
+						let time = 4000;
+						if (hitData.report === 1 || hitData.report === 2) {
+							time = 4000;
 						}
-					}, 4000)
-					timeouts.push(delay2);
+						delay2 = setTimeout(() => {
+							if (hitData.report === 3) {
+								dispatch({ type: Events.UPDATE_TURN, payload: { room, hitData } });
+							} else {
+								dispatch({ type: Events.UPDATE_TURN, payload: { room, hitData: null } });
+							}
+						}, time)
+						timeouts.push(delay2);
+					}
 				} else {
 					dispatch({ type: msg.type, payload: msg.data });
 				}

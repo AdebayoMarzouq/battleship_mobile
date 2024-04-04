@@ -9,7 +9,9 @@ import {
 import { AppContext } from "@/contexts/app_context";
 import { ENDPOINT } from "@/shared";
 import { Events } from "@/types/reducer";
-import { useRouter } from "expo-router";
+import {
+	useRouter
+} from "expo-router";
 import React, { useContext } from "react";
 import { ActivityIndicator, View } from "react-native";
 
@@ -22,7 +24,6 @@ const GameScreen = () => {
 
 	const handleReset = async () => {
 		try {
-			console.log("before fetch");
 			const response = await fetch(`http://${ENDPOINT}/reset_user_data`, {
 				method: "POST",
 				headers: {
@@ -35,7 +36,6 @@ const GameScreen = () => {
 					},
 				}),
 			});
-			console.log("after fetch")
 			if (!response.ok) {
 				console.error("HTTP error! Status:", response.status);
 				const errorText = await response.text();
@@ -43,7 +43,6 @@ const GameScreen = () => {
 				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
 			dispatch({ type: Events.RESET_DATA, payload: null });
-			console.log("dispatched");
 			router.replace("/mainMenu");
 		} catch (error) {
 			console.log(error);

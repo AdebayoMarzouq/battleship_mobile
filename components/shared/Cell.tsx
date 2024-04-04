@@ -29,13 +29,11 @@ const Cell = ({
 		sizeStyle =
 			cellData.hasShip.axis === "x"
 				? {
-						width:
-							cellData.hasShip.length * (layout.width) - 2,
+						width: cellData.hasShip.length * layout.width - 2,
 						height: layout.height - 2,
 				  }
 				: {
-						height:
-							cellData.hasShip.length * (layout.height) - 2,
+						height: cellData.hasShip.length * layout.height - 2,
 						width: layout.width - 2,
 				  };
 	}

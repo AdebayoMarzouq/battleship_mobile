@@ -6,7 +6,7 @@ import { useRouter } from "expo-router";
 import React, { useContext, useState } from "react";
 import { TextInput, View } from "react-native";
 
-const mainMenu = () => {
+const MainMenu = () => {
 	const router = useRouter();
 	const {
 		dispatch,
@@ -81,4 +81,4 @@ const mainMenu = () => {
 	);
 };
 
-export default mainMenu;
+export default MainMenu;
